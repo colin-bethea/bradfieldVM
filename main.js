@@ -79,7 +79,7 @@ const instructionSet = function (instructionType, reg1, reg2) {
 
 while (mainMemory[registers[0]] !== halt) {
   const programCounter = registers[0];
-  instructionSet(mainMemory[programCounter], mainMemory[programCounter + 1], mainMemory[programCounter + 2]);
+  instructionSet(mainMemory[parseInt(programCounter, 10)], mainMemory[parseInt(programCounter, 10) + 1], mainMemory[parseInt(programCounter, 10) + 2]);
   registers[0] += 3; // 
 }
 
