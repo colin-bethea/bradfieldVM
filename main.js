@@ -10,7 +10,6 @@
  *
  * Include a switch statement with cases for each instruction in the set; this is what you saw in LC3-VM in C, so it's likely the same in JS for this VM
  *
- * Include a 
 */
 
 
@@ -62,14 +61,14 @@ const mainMemory = [
 const instructionSet = function (instructionType, reg1, reg2) {
   switch (instructionType) {
     case loadWord:
-      registers[reg1] = mainMemory[reg2] + (mainMemory[reg2 + 1] << 8); // CONFUSED HERE *** 
+      registers[parseInt(reg1)] = mainMemory[reg2] + (mainMemory[reg2 + 1] << 8); 
       break;
     case storeWord:
-      mainMemory[reg2] = registers[reg1] & 0x00f; // Copy data from register to memory => ALSO CONFUSED HERE ***
-      mainMemory[reg2 + 1] = registers[reg1] >> 8;
+      mainMemory[parseInt(reg2)] = registers[reg1] & 0x00f; // Copy data from register to memory
+      mainMemory[parseInt(reg2) + 1] = registers[reg1] >> 8;
       break;
     case add:
-      registers[reg1] += registers[reg2]; // Make reg1 += reg2
+      registers[parseInt(reg1)] += registers[reg2]; // Make reg1 += reg2
       break;
     case halt:
       break;
