@@ -61,7 +61,7 @@ const mainMemory = [
 const instructionSet = function (instructionType, reg1, reg2) {
   switch (instructionType) {
     case loadWord:
-      registers[parseInt(reg1)] = mainMemory[reg2] + (mainMemory[reg2 + 1] << 8); 
+      registers[parseInt(reg1)] = mainMemory[parseInt(reg2)] + (mainMemory[parseInt(reg2) + 1] << 8); 
       break;
     case storeWord:
       mainMemory[parseInt(reg2)] = registers[reg1] & 0x00f; // Copy data from register to memory
