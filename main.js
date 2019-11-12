@@ -1,4 +1,4 @@
-/* PSEUDO-CODE
+/* PSEUDO-CODE for VM
  * 
  * Initialize main memory in an array with length = 20 (amount of bytes total)
  *
@@ -12,6 +12,13 @@
  *
 */
 
+/* PSEUDO-CODE for VOS
+ *
+ * Write a function that loads a program, translates virtual memory into physical mainMemory[] array locations
+ *
+ * Edit run function to support concurrent running of programs (with context switching?)
+ *
+*/ 
 
 // Initialize main memory (RAM) for VM in hexadecimal format with 20 bytes
 
@@ -55,6 +62,23 @@ const mainMemory = [
  0x00
 ];
 
+// Create a function for loading programs into the VM's memory
+
+const loadProgram = function (path) {
+	let fileContents = fs.readFile(path);
+	let memoryTranslation = function () {
+		const virtualMemory = mainMemory[];
+		if (mainMemory !== // OCCUPIED?
+			// allocate/assign memory
+	}
+};
+
+// Create a function for translating virtual memory into physical memory (virtualMemory => mainMemory)
+
+// const virtualMemory = function () {
+
+// };  
+
 // Assign a register array element to be the program counter (PC)
 
 
@@ -76,18 +100,10 @@ const instructionSet = function (instructionType, reg1, reg2) {
   }
 };
 
+// Figure out how to run programs concurrently with split memory allocation + context switching
 
 while (mainMemory[registers[0]] !== halt) {
   const programCounter = registers[0];
   instructionSet(mainMemory[parseInt(programCounter, 10)], mainMemory[parseInt(programCounter, 10) + 1], mainMemory[parseInt(programCounter, 10) + 2]);
   registers[0] += 3; // 
-}
-
-console.log(mainMemory); // Wrap output into Node/Express + vanilla frontend instead of just console logging - go the full mile on this one
-
-
-// Additional code for subtraction instruction (may not work for lack of negative number support)
-    // case subtract:
-    //  registers[reg1] -= registers[reg2]; // Make reg1 -= reg2
-    //  break;
-
+};
