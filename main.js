@@ -62,27 +62,10 @@ const mainMemory = [
  0x00
 ];
 
-// Create a function for loading programs into the VM's memory
-
-const loadProgram = function (path) {
-	let fileContents = fs.readFile(path);
-	let memoryTranslation = function () {
-		const virtualMemory = mainMemory[];
-		if (mainMemory !== // OCCUPIED?
-			// allocate/assign memory
-	}
-};
-
-// Create a function for translating virtual memory into physical memory (virtualMemory => mainMemory)
-
-// const virtualMemory = function () {
-
-// };  
-
 // Assign a register array element to be the program counter (PC)
 
 
-const instructionSet = function (instructionType, reg1, reg2) {
+const instructionSet = (instructionType, reg1, reg2) => {
   switch (instructionType) {
     case loadWord:
       registers[parseInt(reg1, 10)] = mainMemory[parseInt(reg2, 10)] + (mainMemory[parseInt(reg2, 10) + 1] << 8); 
@@ -107,3 +90,5 @@ while (mainMemory[registers[0]] !== halt) {
   instructionSet(mainMemory[parseInt(programCounter, 10)], mainMemory[parseInt(programCounter, 10) + 1], mainMemory[parseInt(programCounter, 10) + 2]);
   registers[0] += 3; // 
 };
+
+console.log(mainMemory);
