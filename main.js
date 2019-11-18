@@ -1,22 +1,16 @@
-/* PSEUDO-CODE for VM
- * 
- * Initialize main memory in an array with length = 20 (amount of bytes total)
- *
- * Initialize instructions as separate variables and assign them to their hexadecimal number formats (ie: 0x01, 0x02, etc.)
- *
- * Initialize registers in an array as well, with a single program counter, and two general purpose registers; program counter should be equal to 0 by default
- *
- * Create a function that takes arguments from input for each general purpose register and applies them to a specified instruction
- *
- * Include a switch statement with cases for each instruction in the set; this is what you saw in LC3-VM in C, so it's likely the same in JS for this VM
- *
-*/
-
 /* PSEUDO-CODE for VOS
+ * 
+ * Initialize a hash table for paging (or maybe an array with sub-arrays)
  *
- * Write a function that loads a program, translates virtual memory into physical mainMemory[] array locations
+ * Write a function that loads, reads, and parses VEF files into segment headers in hex format (little-endian)
  *
- * Edit run function to support concurrent running of programs (with context switching?)
+ * Take segment headers and put them into hashed paging table as hex numbers (or individual sub-arrays symbolic of pages)
+ *
+ * Execute programs from virtual memory (linked to disk/physicalMemory)
+ *
+ * Switch between segment headers (2 per program) intermittently => confused on this one
+ *
+ *  
  *
 */ 
 
@@ -33,8 +27,7 @@ const registers = [0, null, null]; // registers[0] is the program counter, set t
 
 // Initialize main memory (RAM) => 
 
-
-const mainMemory = [
+const physicalMemory = [
  //
  0x01,
  0x01,
@@ -62,17 +55,23 @@ const mainMemory = [
  0x00
 ];
 
-// Assign a register array element to be the program counter (PC)
+const virtualMemory = [];
 
+for (let i = 0; i < physicalMemory.length; i++) {
+  virtualMemory[i] = physicalMemory[i];
+  console.log(virtualMemory);
+};
+
+// Assign a register array element to be the program counter (PC)
 
 const instructionSet = (instructionType, reg1, reg2) => {
   switch (instructionType) {
     case loadWord:
-      registers[parseInt(reg1, 10)] = mainMemory[parseInt(reg2, 10)] + (mainMemory[parseInt(reg2, 10) + 1] << 8); 
+      registers[parseInt(reg1, 10)] = physicalMemory[parseInt(reg2, 10)] + (physicalMemory[parseInt(reg2, 10) + 1] << 8); 
       break;
     case storeWord:
-      mainMemory[parseInt(reg2, 10)] = registers[parseInt(reg1, 10)] & 0x00f; // Copy data from register to memory
-      mainMemory[parseInt(reg2, 10) + 1] = registers[parseInt(reg1, 10)] >> 8;
+      physicalMemory[parseInt(reg2, 10)] = registers[parseInt(reg1, 10)] & 0x00f; // Copy data from register to memory
+      physicalMemory[parseInt(reg2, 10) + 1] = registers[parseInt(reg1, 10)] >> 8;
       break;
     case add:
       registers[parseInt(reg1, 10)] += registers[parseInt(reg2, 10)]; // Make reg1 += reg2
@@ -83,12 +82,12 @@ const instructionSet = (instructionType, reg1, reg2) => {
   }
 };
 
-// Figure out how to run programs concurrently with split memory allocation + context switching
+// Run while loop to handle computer running
 
-while (mainMemory[registers[0]] !== halt) {
+while (physicalMemory[registers[0]] !== halt) {
   const programCounter = registers[0];
-  instructionSet(mainMemory[parseInt(programCounter, 10)], mainMemory[parseInt(programCounter, 10) + 1], mainMemory[parseInt(programCounter, 10) + 2]);
+  instructionSet(physicalMemory[parseInt(programCounter, 10)], physicalMemory[parseInt(programCounter, 10) + 1], physicalMemory[parseInt(programCounter, 10) + 2]);
   registers[0] += 3; // 
 };
 
-console.log(mainMemory);
+console.log(physicalMemory);
